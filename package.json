@@ -1,0 +1,24 @@
+{
+  "name": "currency-exchanger",
+  "version": "1.0.0",
+  "description": "Hello!",
+  "scripts": {
+    "start": "lerna run start --stream",
+    "build": "lerna run build --stream",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/phiter/currency-exchanger.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/phiter/currency-exchanger/issues"
+  },
+  "homepage": "https://github.com/phiter/currency-exchanger#readme",
+  "devDependencies": {
+    "lerna": "^3.22.1"
+  }
+}
