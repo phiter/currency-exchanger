@@ -1,1 +1,1 @@
-// api entry file
+require('./app.server');
