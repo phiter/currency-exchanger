@@ -6,7 +6,8 @@
     "start": "lerna run start --stream",
     "bootstrap": "lerna bootstrap",
     "build": "lerna run build --stream",
-    "test": "lerna run test --stream"
+    "test": "lerna run test --stream",
+    "lint": "lerna run lint --stream"
   },
   "repository": {
     "type": "git",
