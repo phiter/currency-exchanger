@@ -4,6 +4,7 @@
   "description": "Hello!",
   "scripts": {
     "start": "lerna run start --stream",
+    "bootstrap": "lerna bootstrap",
     "build": "lerna run build --stream",
     "test": "lerna run test --stream"
   },
