@@ -65,12 +65,18 @@
         </button>
       </div>
     </form>
+    <hr class="my-5">
+    <conversion-history
+      v-if="history.length > 0"
+      :history="conversionHistory"
+    />
   </div>
 </template>
 
 <script>
 import BaseSelect from '@/components/BaseSelect.vue';
 import BaseLoader from '@/components/BaseLoader.vue';
+import ConversionHistory from '@/components/ConversionHistory.vue';
 import api from './services/api';
 import availableCurrencies from './constants/currencies';
 
@@ -79,6 +85,7 @@ export default {
   components: {
     BaseSelect,
     BaseLoader,
+    ConversionHistory,
   },
   data() {
     return {
@@ -88,6 +95,8 @@ export default {
       amount: 1,
       result: null,
       loading: false,
+
+      history: [],
     };
   },
   computed: {
@@ -96,6 +105,9 @@ export default {
     },
     toSymbol() {
       return this.availableCurrencies[this.to].symbol;
+    },
+    conversionHistory() {
+      return [...this.history].reverse();
     },
   },
   created() {
@@ -106,6 +118,7 @@ export default {
       // Save api calls in the future
       if (this.to === this.from) {
         this.result = this.amount;
+        this.logConversion();
         return;
       }
 
@@ -114,8 +127,32 @@ export default {
       const result = await api.convert(amount, from, to);
 
       this.result = result;
+      this.logConversion();
 
       this.loading = false;
+    },
+    logConversion() {
+      const {
+        amount,
+        from,
+        to,
+        result,
+      } = this;
+
+      const date = Date.now();
+
+      this.history.push({
+        from,
+        amount,
+        to,
+        result,
+        date,
+      });
+
+      // Keep a maximum of 10 entries
+      if (this.history.length > 10) {
+        this.history.shift();
+      }
     },
   },
 };

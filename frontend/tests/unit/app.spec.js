@@ -37,4 +37,23 @@ describe('App.vue', () => {
 
     expect(wrapper.vm.amount).toBe(wrapper.vm.result);
   });
+
+  it('should only have a maximum of 10 history entries', async () => {
+    const wrapper = factory();
+    await flushPromises();
+
+    wrapper.setData({
+      from: 'USD',
+      to: 'USD',
+    });
+
+    for (let i = 0; i < 11; i += 1) {
+      // avoid Vue key warning
+      window.Date.now = () => i;
+
+      wrapper.vm.convert();
+    }
+
+    expect(wrapper.vm.history).toHaveLength(10);
+  });
 });

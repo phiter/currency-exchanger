@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/prefer-default-export
 export const currency = (value) => {
   if (value === undefined || value === null) return '';
 
@@ -6,3 +5,5 @@ export const currency = (value) => {
     minimumFractionDigits: 2,
   });
 };
+
+export const date = (timestamp) => new Date(timestamp).toLocaleString();
