@@ -3,7 +3,7 @@
     <h1 class="text-2xl font-bold">
       Currency Converter
     </h1>
-    <form>
+    <form @submit.prevent="convert">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label for="currency-from">
@@ -14,6 +14,7 @@
             v-model="from"
             :options="availableCurrencies"
             text-property="title"
+            @input="convert"
           />
           <div class="text-6xl flex">
             <span class="text-gray-600 font-thin">{{ fromSymbol }}</span>
@@ -29,6 +30,7 @@
             v-model="to"
             :options="availableCurrencies"
             text-property="title"
+            @input="convert"
           />
           <div class="text-6xl flex">
             <span class="text-gray-600 font-thin">{{ toSymbol }}</span>
@@ -42,9 +44,12 @@
         <button
           id="convert-btn"
           type="submit"
+          :disabled="loading"
           class="btn btn-blue flex flex-col items-center"
         >
+          <base-loader v-show="loading" />
           <img
+            v-show="!loading"
             src="@/assets/random.svg"
             class="convert-img mx-1"
           >
@@ -57,12 +62,15 @@
 
 <script>
 import BaseSelect from '@/components/BaseSelect.vue';
+import BaseLoader from '@/components/BaseLoader.vue';
+import api from './services/api';
 import availableCurrencies from './constants/currencies';
 
 export default {
   name: 'App',
   components: {
     BaseSelect,
+    BaseLoader,
   },
   data() {
     return {
@@ -71,6 +79,7 @@ export default {
       to: 'BRL',
       amount: 1,
       result: null,
+      loading: false,
     };
   },
   computed: {
@@ -79,6 +88,26 @@ export default {
     },
     toSymbol() {
       return this.availableCurrencies[this.to].symbol;
+    },
+  },
+  created() {
+    this.convert();
+  },
+  methods: {
+    async convert() {
+      // Save api calls in the future
+      if (this.to === this.from) {
+        this.result = this.amount;
+        return;
+      }
+
+      this.loading = true;
+      const { amount, from, to } = this;
+      const result = await api.convert(amount, from, to);
+
+      this.result = result;
+
+      this.loading = false;
     },
   },
 };
