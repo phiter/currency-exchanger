@@ -4,8 +4,7 @@
   "description": "Hello!",
   "scripts": {
     "start": "lerna run start --stream",
-    "build": "lerna run build --stream",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "lerna run build --stream"
   },
   "repository": {
     "type": "git",

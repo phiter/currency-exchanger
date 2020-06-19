@@ -18,7 +18,14 @@
           />
           <div class="text-6xl flex">
             <span class="text-gray-600 font-thin">{{ fromSymbol }}</span>
-            <input v-model="amount" class="w-full" />
+              <currency-input
+                v-model="amount"
+                class="w-full"
+                auto-decimal-mode
+                :precision="2"
+                :currency="null"
+                :distraction-free="false"
+              />
           </div>
         </div>
         <div>
@@ -35,7 +42,7 @@
           <div class="text-6xl flex">
             <span class="text-gray-600 font-thin">{{ toSymbol }}</span>
             <span>
-              {{ result }}
+              {{ result | currency }}
             </span>
           </div>
         </div>
