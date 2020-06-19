@@ -3,15 +3,45 @@ import flushPromises from 'flush-promises';
 import '@/plugins';
 import App from '@/App.vue';
 
+const DUMMY_RETURN_VALUE = 2;
+
+let apiCallShouldFail = false;
+
+window.fetch = jest.fn(async () => {
+  if (apiCallShouldFail) {
+    throw new Error('fail mock');
+  }
+
+  return {
+    json: jest.fn(async () => ({
+      result: DUMMY_RETURN_VALUE,
+    })),
+  };
+});
+
+window.alert = jest.fn();
+
 const factory = (options) => mount(App, {
   ...options,
+});
+
+beforeEach(() => {
+  apiCallShouldFail = false;
+  jest.clearAllMocks();
 });
 
 describe('App.vue', () => {
   it('should make conversion on created', async () => {
     const wrapper = factory();
     await flushPromises();
-    expect(wrapper.vm.result).toBe(wrapper.vm.amount * 2);
+    expect(wrapper.vm.result).toBe(DUMMY_RETURN_VALUE);
+  });
+
+  it('should display alert if api call fails', async () => {
+    apiCallShouldFail = true;
+    factory();
+    await flushPromises();
+    expect(window.alert).toHaveBeenCalled();
   });
 
   it('should make conversion on change from select', async () => {
@@ -22,7 +52,7 @@ describe('App.vue', () => {
     const fromSelect = wrapper.find('#currency-from');
     fromSelect.setValue('EUR');
     await flushPromises();
-    expect(wrapper.vm.result).toBe(400);
+    expect(wrapper.vm.result).toBe(DUMMY_RETURN_VALUE);
   });
 
   it('should not make api call when converting between same currency', async () => {
@@ -36,6 +66,7 @@ describe('App.vue', () => {
     await flushPromises();
 
     expect(wrapper.vm.amount).toBe(wrapper.vm.result);
+    expect(window.fetch).not.toHaveBeenCalled();
   });
 
   it('should only have a maximum of 10 history entries', async () => {

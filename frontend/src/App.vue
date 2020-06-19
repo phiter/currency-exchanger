@@ -123,7 +123,7 @@ export default {
   },
   methods: {
     async convert(log = true) {
-      // Save api calls in the future
+      // Save api calls
       if (this.to === this.from) {
         this.result = this.amount;
         if (log) this.logConversion();
@@ -132,12 +132,17 @@ export default {
 
       this.loading = true;
       const { amount, from, to } = this;
-      const result = await api.convert(amount, from, to);
+      try {
+        const { result } = await api.convert(amount, from, to);
 
-      this.result = result;
-      if (log) this.logConversion();
-
-      this.loading = false;
+        this.result = result;
+        if (log) this.logConversion();
+      } catch (error) {
+        // eslint-disable-next-line no-alert
+        alert('The server is not responding properly.');
+      } finally {
+        this.loading = false;
+      }
     },
     logConversion() {
       const {
