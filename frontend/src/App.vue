@@ -30,7 +30,7 @@
           </div>
         </div>
         <div>
-          <label for="currency-from">
+          <label for="currency-to">
             To:
           </label>
           <base-select
