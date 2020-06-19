@@ -80,6 +80,8 @@ import ConversionHistory from '@/components/ConversionHistory.vue';
 import api from './services/api';
 import availableCurrencies from './constants/currencies';
 
+const LOCAL_STORAGE_HISTORY_KEY = 'conversion-history';
+
 export default {
   name: 'App',
   components: {
@@ -88,6 +90,12 @@ export default {
     ConversionHistory,
   },
   data() {
+    let history = [];
+    const previousHistory = localStorage.getItem(LOCAL_STORAGE_HISTORY_KEY);
+    if (previousHistory) {
+      history = JSON.parse(previousHistory);
+    }
+
     return {
       availableCurrencies,
       from: 'USD',
@@ -96,7 +104,7 @@ export default {
       result: null,
       loading: false,
 
-      history: [],
+      history,
     };
   },
   computed: {
@@ -111,14 +119,14 @@ export default {
     },
   },
   created() {
-    this.convert();
+    this.convert(false);
   },
   methods: {
-    async convert() {
+    async convert(log = true) {
       // Save api calls in the future
       if (this.to === this.from) {
         this.result = this.amount;
-        this.logConversion();
+        if (log) this.logConversion();
         return;
       }
 
@@ -127,7 +135,7 @@ export default {
       const result = await api.convert(amount, from, to);
 
       this.result = result;
-      this.logConversion();
+      if (log) this.logConversion();
 
       this.loading = false;
     },
@@ -153,6 +161,9 @@ export default {
       if (this.history.length > 10) {
         this.history.shift();
       }
+
+      // Save history in localStorage
+      localStorage.setItem(LOCAL_STORAGE_HISTORY_KEY, JSON.stringify(this.history));
     },
   },
 };
