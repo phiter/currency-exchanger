@@ -1,5 +1,7 @@
 ## Currency exchanger
 
+[![CircleCI](https://circleci.com/gh/phiter/currency-exchanger/tree/master.svg?style=shield)](https://circleci.com/gh/phiter/currency-exchanger)
+
 This is an app built with Vue + Express, using the Open Exchange Rates api to make currency conversions.  
 It also uses lerna to manage the two projects.
 
