@@ -4,7 +4,8 @@
   "description": "Hello!",
   "scripts": {
     "start": "lerna run start --stream",
-    "build": "lerna run build --stream"
+    "build": "lerna run build --stream",
+    "test": "lerna run test --stream"
   },
   "repository": {
     "type": "git",

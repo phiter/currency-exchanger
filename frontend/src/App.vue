@@ -19,6 +19,7 @@
           <div class="text-6xl flex">
             <span class="text-gray-600 font-thin">{{ fromSymbol }}</span>
               <currency-input
+                id="currency-amount"
                 v-model="amount"
                 class="w-full"
                 auto-decimal-mode
