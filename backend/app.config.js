@@ -4,4 +4,10 @@ const getServerConfig = () => {
   return { host, port };
 };
 
+const getOpenExchangeRatesConfig = () => {
+  const appId = process.env.OPEN_EXCHANGE_RATES_APP_ID;
+  return { appId };
+};
+
 module.exports.getServerConfig = getServerConfig;
+module.exports.getOpenExchangeRatesConfig = getOpenExchangeRatesConfig;

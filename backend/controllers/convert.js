@@ -1,3 +1,5 @@
+const openExchangeApi = require('../services/openexchangerates');
+
 const convert = async (req, res) => {
   const { from, to, amount } = req.query;
   // Could use a validation plugin later
@@ -5,7 +7,7 @@ const convert = async (req, res) => {
     return res.status(400).send('Query is missing parameters.');
   }
 
-  const result = Number(amount) * 2;
+  const result = await openExchangeApi.convert(amount, from, to);
 
   return res.status(200).json({ result });
 };

@@ -1,5 +1,18 @@
+const fetch = require('node-fetch');
 const request = require('supertest');
 const app = require('../../app');
+
+jest.mock('node-fetch');
+
+const openExchangeRatesMock = () => ({
+  base: 'USD',
+  rates: {
+    BRL: 5,
+    USD: 1,
+    JPY: 100,
+    EUR: 0.90,
+  },
+});
 
 describe('Api', () => {
   describe('conversion route', () => {
@@ -14,11 +27,15 @@ describe('Api', () => {
       const to = 'EUR';
       const amount = 5;
 
+      fetch.mockReturnValue(Promise.resolve({
+        json: () => openExchangeRatesMock(),
+      }));
+
       const response = await request(app)
         .get(`/convert?from=${from}&to=${to}&amount=${amount}`);
 
-      // Current mock returns amount * 2
-      const expectedResult = amount * 2;
+      // Amount times mocked EURO value
+      const expectedResult = amount * 0.89;
 
       expect(response.statusCode).toBe(200);
       expect(response.body.result).toBe(expectedResult);
