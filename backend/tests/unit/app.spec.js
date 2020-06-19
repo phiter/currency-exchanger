@@ -35,7 +35,7 @@ describe('Api', () => {
         .get(`/convert?from=${from}&to=${to}&amount=${amount}`);
 
       // Amount times mocked EURO value
-      const expectedResult = amount * 0.89;
+      const expectedResult = amount * 0.90;
 
       expect(response.statusCode).toBe(200);
       expect(response.body.result).toBe(expectedResult);
