@@ -12,7 +12,7 @@
             </label>
             <BaseSelect
               id="currency-from"
-              :value="from"
+              v-model="from"
               :options="availableCurrencies"
               text-property="title"
               @input="convert"
@@ -36,7 +36,7 @@
             </label>
             <BaseSelect
               id="currency-to"
-              :value="to"
+              v-model="to"
               :options="availableCurrencies"
               text-property="title"
               @input="convert"

@@ -13,34 +13,34 @@
   </select>
 </template>
 
-<script>
-export default {
-  name: 'BaseSelect',
-  props: {
-    options: {
-      type: Object,
-      required: true,
-    },
-    value: {
-      type: null,
-      required: true,
-    },
-    textProperty: {
-      type: String,
-      default: null,
-    },
+<script setup>
+import { computed, defineProps, defineEmits } from 'vue';
+
+const props = defineProps({
+  options: {
+    type: Object,
+    required: true,
   },
-  computed: {
-    model: {
-      get() {
-        return this.value;
-      },
-      set(v) {
-        this.$emit('input', v);
-      },
-    },
+  modelValue: {
+    type: null,
+    required: true,
   },
-};
+  textProperty: {
+    type: String,
+    default: null,
+  },
+});
+
+const emit = defineEmits(['update:modelValue']);
+
+const model = computed({
+  get() {
+    return props.modelValue;
+  },
+  set(value) {
+    emit('update:modelValue', value);
+  },
+});
 </script>
 
 <style scoped>
