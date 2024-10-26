@@ -19,19 +19,19 @@
           :key="conversion.date"
         >
           <td class="border p-2">
-            {{ conversion.date | date }}
+            {{ date(conversion.date) }}
           </td>
           <td class="border p-2">
             {{ availableCurrencies[conversion.from].title }}
           </td>
           <td class="border p-2">
-            {{ conversion.amount | currency }}
+            {{availableCurrencies[conversion.from].symbol}} {{ currency(conversion.amount) }}
           </td>
           <td class="border p-2">
             {{ availableCurrencies[conversion.to].title }}
           </td>
           <td class="border p-2">
-            {{ conversion.result | currency }}
+            {{availableCurrencies[conversion.to].symbol}} {{ currency(conversion.result) }}
           </td>
         </tr>
       </tbody>
@@ -39,20 +39,17 @@
   </section>
 </template>
 
-<script>
-import availableCurrencies from '@/constants/currencies';
+<script setup>
+import { ref } from 'vue';
+import availableCurrencies from '../constants/currencies';
+import { currency, date } from '../plugins/filters';
 
-export default {
-  props: {
-    history: {
-      type: Array,
-      required: true,
-    },
+const props = defineProps({
+  history: {
+    type: Array,
+    required: true,
   },
-  data() {
-    return {
-      availableCurrencies,
-    };
-  },
-};
+});
+
+const availableCurrenciesRef = ref(availableCurrencies);
 </script>

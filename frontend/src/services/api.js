@@ -1,7 +1,7 @@
-const apiUrl = process.env.VUE_APP_API_URL;
-const apiPort = process.env.VUE_APP_API_PORT;
+const apiUrl = import.meta.env.VITE_APP_API_URL;
+const apiPort = import.meta.env.VITE_APP_API_PORT;
 
-const baseUrl = process.env.VUE_APP_API_URL
+const baseUrl = import.meta.env.VITE_APP_API_URL
   ? `${apiUrl}:${apiPort}`
   : `${window.location.protocol}//${window.location.host}`;
 

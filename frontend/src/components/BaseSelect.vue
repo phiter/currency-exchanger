@@ -45,7 +45,7 @@ export default {
 
 <style scoped>
 .select {
-  @apply block appearance-none w-full
+  @apply block w-full
   bg-gray-200 border border-gray-200
   text-gray-700 py-3 px-4 pr-8
   rounded leading-tight;
