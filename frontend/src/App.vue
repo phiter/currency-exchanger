@@ -15,7 +15,6 @@
               v-model="from"
               :options="availableCurrencies"
               text-property="title"
-              @input="convert"
               class="w-full mb-4"
             />
             <div class="text-5xl flex items-center">
@@ -39,7 +38,6 @@
               v-model="to"
               :options="availableCurrencies"
               text-property="title"
-              @input="convert"
               class="w-full mb-4"
             />
             <div class="text-5xl flex items-center">
